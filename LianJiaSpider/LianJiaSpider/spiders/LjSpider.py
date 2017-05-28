@@ -7,7 +7,7 @@ from LianJiaSpider.items import LianjiaspiderItem
 class LjspiderSpider(scrapy.Spider):
     name = "LjSpider"
     allowed_domains = ["lianjia.com"]
-    areas = ['sz','bj']
+    areas = ['bj']
 
     urlpages = []
     pagenum = 2
@@ -30,7 +30,7 @@ class LjspiderSpider(scrapy.Spider):
         self.pagenum = 2
         url = response.url
         self.urlpages.append(url)
-        while(self.testurl(url + "/pg" + str(self.pagenum)) !=[]):
+        while(self.testurl(url + "/pg" + str(self.pagenum)) != []):
             self.urlpages.append(url+"/pg"+str(self.pagenum))
             self.pagenum = self.pagenum + 1
         for urlpage in self.urlpages:
@@ -44,6 +44,7 @@ class LjspiderSpider(scrapy.Spider):
         return etreehtml.xpath("//div[@class='page-box house-lst-page-box']")
 
     def parse_loupaninfo(self,response):
+        print "response.url:",response.url
         item = LianjiaspiderItem()
         lis = response.xpath('//ul[@class="house-lst"]/li')
         for li in lis:
