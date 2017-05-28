@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import urllib
+from lxml import etree
 from LianJiaSpider.items import LianjiaspiderItem
 
 class LjspiderSpider(scrapy.Spider):
     name = "LjSpider"
     allowed_domains = ["lianjia.com"]
     areas = ['sz','bj']
+
+    urlpages = []
+    pagenum = 2
 
     def start_requests(self):
         urls = []
@@ -22,7 +27,23 @@ class LjspiderSpider(scrapy.Spider):
         yield scrapy.Request(url_fang,callback=self.parse_loupan)
 
     def parse_loupan(self,response):
-        print 'response.url:',response.url
+        self.pagenum = 2
+        url = response.url
+        self.urlpages.append(url)
+        while(self.testurl(url + "/pg" + str(self.pagenum)) !=[]):
+            self.urlpages.append(url+"/pg"+str(self.pagenum))
+            self.pagenum = self.pagenum + 1
+        for urlpage in self.urlpages:
+            print "urlpage:",urlpage
+            yield scrapy.Request(urlpage,callback=self.parse_loupaninfo)
+        self.urlpages = []
+
+    def testurl(self,url):
+        html = urllib.urlopen(url).read()
+        etreehtml = etree.HTML(html)
+        return etreehtml.xpath("//div[@class='page-box house-lst-page-box']")
+
+    def parse_loupaninfo(self,response):
         item = LianjiaspiderItem()
         lis = response.xpath('//ul[@class="house-lst"]/li')
         for li in lis:
@@ -34,8 +55,7 @@ class LjspiderSpider(scrapy.Spider):
             item['price'] = li.xpath('./div[@class="info-panel"]/div[@class="col-2"]/div/div[@class="average"]/text()').extract()
             yield item
 
-        nextPage = response.xpath('//div[@comp-module="page"]')
-        print 'nextPage:',nextPage
+
 
 
 
