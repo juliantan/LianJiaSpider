@@ -7,7 +7,7 @@ from LianJiaSpider.items import LianjiaspiderItem
 class LjspiderSpider(scrapy.Spider):
     name = "LjSpider"
     allowed_domains = ["lianjia.com"]
-    areas = ['bj']
+    areas = ['bj','sz','gz']
 
     urlpages = []
     pagenum = 2
