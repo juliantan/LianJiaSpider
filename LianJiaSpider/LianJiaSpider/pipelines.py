@@ -20,18 +20,28 @@ class LianjiaspiderPipeline(object):
         )
         cur = conn.cursor()
 
-        cur.execute("insert into tb_lj(loupanName,address,doorModel,state,houseType,price) values(%s,%s,%s,%s,%s,%s)",(item['loupanName'][0].encode('utf8'), item['address'][0].encode('utf8'),item['doorModel'][0].encode('utf8'),item['state'][0].encode('utf8'), item['houseType'][0].encode('utf8'), item['price'][0].encode('utf8')))
+        cur.execute("insert into tb_lj(area,loupanName,address,doorModel,state,houseType,price,loupanurl) values(%s,%s,%s,%s,%s,%s,%s,%s)",(
+            item['area'][0].encode('utf8').replace('楼盘',''),
+            item['loupanName'][0].encode('utf8'),
+            item['address'][0].encode('utf8'),
+            item['doorModel'][0].encode('utf8').replace('\r','').replace('\n','').replace('\t','').replace(' ',''),
+            item['state'][0].encode('utf8'),
+            item['houseType'][0].encode('utf8'),
+            item['price'][0].encode('utf8').replace('\r','').replace('\n','').replace('\t','').replace(' ',''),
+            item['areaurl'][0].encode('utf8') + item['loupanurl'][0].encode('utf8')[1:]))
 
 
         # now = time.strftime('%Y-%m-%d', time.localtime())
         # fileName = u'链家' + now + '.txt'
         # with open(fileName, 'a') as fp:
+        #     fp.write(item['area'][0].encode('utf8')+'\n')
         #     fp.write(item['loupanName'][0].encode('utf8') + '\n')
         #     fp.write(item['address'][0].encode('utf8') + '\n')
-        #     fp.write(item['doorModel'][0].encode('utf8') + '\n')
+        #     fp.write(item['doorModel'][0].encode('utf8').replace('\r','').replace('\n','').replace('\t','').replace(' ','') + '\n')
         #     fp.write(item['state'][0].encode('utf8') + '\n\n')
         #     fp.write(item['houseType'][0].encode('utf8') + '\n')
         #     fp.write(item['price'][0].encode('utf8') + '\n\n')
+        #     fp.write(item['areaurl'][0].encode('utf8') + item['loupanurl'][0].encode('utf8') + '\n\n')
 
         cur.close()
         conn.commit()

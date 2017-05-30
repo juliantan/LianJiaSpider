@@ -7,7 +7,7 @@ from LianJiaSpider.items import LianjiaspiderItem
 class LjspiderSpider(scrapy.Spider):
     name = "LjSpider"
     allowed_domains = ["lianjia.com"]
-    areas = ['bj','sz','gz']
+    areas = ['bj','gz','sz','zs','fs']
 
     urlpages = []
     pagenum = 2
@@ -48,12 +48,15 @@ class LjspiderSpider(scrapy.Spider):
         item = LianjiaspiderItem()
         lis = response.xpath('//ul[@class="house-lst"]/li')
         for li in lis:
+            item['area'] = li.xpath('//div[@class="fl l-txt"]/a[@href="/loupan/"]/text()').extract()
             item['loupanName'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/h2/a/text()').extract()
             item['address'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/div[@class="where"]/span/text()').extract()
-            item['doorModel'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/div[@class="area"]/text()').extract()
+            item['doorModel'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/div[@class="area"]').xpath('string(.)').extract()
             item['state'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/div[@class="type"]/span[1]/text()').extract()
             item['houseType'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/div[@class="type"]/span[2]/text()').extract()
-            item['price'] = li.xpath('./div[@class="info-panel"]/div[@class="col-2"]/div/div[@class="average"]/text()').extract()
+            item['price'] = li.xpath('./div[@class="info-panel"]/div[@class="col-2"]/div/div[@class="average"]').xpath('string(.)').extract()
+            item['areaurl'] = li.xpath('//div[@class="fl l-txt"]/a[1]/@href').extract()
+            item['loupanurl'] = li.xpath('./div[@class="info-panel"]/div[@class="col-1"]/h2/a/@href').extract()
             yield item
 
 
