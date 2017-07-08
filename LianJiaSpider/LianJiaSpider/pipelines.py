@@ -9,18 +9,12 @@ import MySQLdb
 
 class LianjiaspiderPipeline(object):
     def process_item(self, item, spider):
-
-        conn = MySQLdb.connect(
-            host='localhost',
-            port=3306,
-            user='root',
-            passwd='123456',
-            db='ljspider',
-            charset='utf8'
-        )
+        conn = MySQLdb.connect(host='localhost', user='root', passwd='123456')
+        cursor = conn.cursor()
+        cursor.execute("""use lianjiaspider;""")
         cur = conn.cursor()
 
-        cur.execute("insert into tb_lj(area,loupanName,address,doorModel,state,houseType,price,loupanurl) values(%s,%s,%s,%s,%s,%s,%s,%s)",(
+        cur.execute("insert into tb_newhouse(area,loupanName,address,doorModel,state,houseType,price,loupanurl) values(%s,%s,%s,%s,%s,%s,%s,%s)",(
             item['area'][0].encode('utf8').replace('楼盘',''),
             item['loupanName'][0].encode('utf8'),
             item['address'][0].encode('utf8'),
