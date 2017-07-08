@@ -1,10 +1,14 @@
 #_*_coding:utf-8_*_
 import MySQLdb
+import settings
+
+settings.DB_Host = raw_input("Enter your mysql host:")
+settings.DB_Pwd = raw_input("Enter your mysql pwd:")
 
 conn = MySQLdb.connect(
-	host='localhost',
+	host=settings.DB_Host,
 	user='root',
-	passwd='123456')
+	passwd=settings.DB_Pwd)
 dbName = "lianjiaspider"
 tableName = "tb_newHouse"
 cursor = conn.cursor()

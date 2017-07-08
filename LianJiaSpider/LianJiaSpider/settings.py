@@ -9,6 +9,9 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+DB_Host = 'localhost'
+DB_Pwd = '123456'
+
 BOT_NAME = 'LianJiaSpider'
 
 SPIDER_MODULES = ['LianJiaSpider.spiders']

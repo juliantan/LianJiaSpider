@@ -6,10 +6,11 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import time
 import MySQLdb
+import settings
 
 class LianjiaspiderPipeline(object):
     def process_item(self, item, spider):
-        conn = MySQLdb.connect(host='localhost', user='root', passwd='123456')
+        conn = MySQLdb.connect(host=settings.DB_Host, user='root', passwd=settings.DB_Pwd)
         cursor = conn.cursor()
         cursor.execute("""use lianjiaspider;""")
         cur = conn.cursor()
