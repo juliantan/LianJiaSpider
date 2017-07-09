@@ -31,10 +31,11 @@ class LjspiderSpider(scrapy.Spider):
         url = response.url
         self.urlpages.append(url)
         while(self.testurl(url + "/pg" + str(self.pagenum)) != []):
+            print "urlpage:",url + "/pg" + str(self.pagenum)
             self.urlpages.append(url+"/pg"+str(self.pagenum))
             self.pagenum = self.pagenum + 1
         for urlpage in self.urlpages:
-            print "urlpage:",urlpage
+            # print "urlpage:",urlpage
             yield scrapy.Request(urlpage,callback=self.parse_loupaninfo)
         self.urlpages = []
 
