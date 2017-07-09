@@ -3,7 +3,7 @@ import MySQLdb
 import settings
 
 settings.DB_Host = raw_input("Enter mysql host:")
-settings.DB_Pwd = raw_input("3edcvgy7GLF")
+settings.DB_Pwd = raw_input("Enter mysql pwd:")
 
 conn = MySQLdb.connect(
 	host=settings.DB_Host,
