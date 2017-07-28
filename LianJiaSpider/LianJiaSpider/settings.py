@@ -10,6 +10,7 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
 DB_Host = 'localhost'
+DB_User = 'root'
 DB_Pwd = '123456'
 
 BOT_NAME = 'LianJiaSpider'
@@ -72,9 +73,14 @@ SPIDER_MIDDLEWARES = {
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+# DOWNLOADER_MIDDLEWARES = {
 #    'LianJiaSpider.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+# }
+
+DOWNLOADER_MIDDLEWARES = {
+   'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
+   'LianJiaSpider.ProxyMiddleware':100,
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

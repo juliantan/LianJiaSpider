@@ -9,17 +9,21 @@ from scrapy import signals
 
 import random
 
-class RandomUserAgent(object):
-	"""Randomly rotate user agents based on a list of predefined ones"""
-	def __init__(self, agents):
-		self.agents = agents
-	@classmethod
-	def from_crawler(cls, crawler):
-		return cls(crawler.settings.getlist('USER_AGENTS'))
-	def process_request(self, request, spider):
-		#print "**************************" + random.choice(self.agents)
-		request.headers.setdefault('User-Agent', random.choice(self.agents))
+# class RandomUserAgent(object):
+# 	"""Randomly rotate user agents based on a list of predefined ones"""
+# 	def __init__(self, agents):
+# 		self.agents = agents
+# 	@classmethod
+# 	def from_crawler(cls, crawler):
+# 		return cls(crawler.settings.getlist('USER_AGENTS'))
+# 	def process_request(self, request, spider):
+# 		#print "**************************" + random.choice(self.agents)
+# 		request.headers.setdefault('User-Agent', random.choice(self.agents))
 
+
+class ProxyMiddleware(object):
+	def process_request(self, request, spider):
+		request.meta['proxy'] = requests.get('http://101.200.39.75:5000/get/', proxies={"http": "http://{}".format(get_proxy)})
 
 
 # class LianjiaspiderSpiderMiddleware(object):
