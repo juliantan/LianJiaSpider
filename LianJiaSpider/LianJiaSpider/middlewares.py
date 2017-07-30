@@ -8,22 +8,25 @@
 from scrapy import signals
 
 import random
+from LianJiaSpider.proxy import GetIp
+import settings
 
-# class RandomUserAgent(object):
-# 	"""Randomly rotate user agents based on a list of predefined ones"""
-# 	def __init__(self, agents):
-# 		self.agents = agents
-# 	@classmethod
-# 	def from_crawler(cls, crawler):
-# 		return cls(crawler.settings.getlist('USER_AGENTS'))
-# 	def process_request(self, request, spider):
-# 		#print "**************************" + random.choice(self.agents)
-# 		request.headers.setdefault('User-Agent', random.choice(self.agents))
+class RandomUserAgent(object):
+	"""Randomly rotate user agents based on a list of predefined ones"""
+	def __init__(self, agents):
+		self.agents = agents
+	@classmethod
+	def from_crawler(cls, crawler):
+		return cls(crawler.settings.getlist('USER_AGENTS'))
+	def process_request(self, request, spider):
+		#print "**************************" + random.choice(self.agents)
+		request.headers.setdefault('User-Agent', random.choice(settings.USER_AGENTS))
 
 
 class ProxyMiddleware(object):
 	def process_request(self, request, spider):
-		request.meta['proxy'] = requests.get('http://101.200.39.75:5000/get/', proxies={"http": "http://{}".format(get_proxy)})
+		getIp = GetIp()
+		request.meta['proxy'] = "https://{0}".format(getIp.get_UseIP())
 
 
 # class LianjiaspiderSpiderMiddleware(object):
