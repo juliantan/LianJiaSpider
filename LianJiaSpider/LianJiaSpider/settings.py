@@ -116,3 +116,5 @@ ITEM_PIPELINES = {
 # REDIRECT_ENABLED = False
 # HTTPERROR_ALLOWED_CODES = [302]
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+FEED_EXPORT_ENCODING='utf-8'

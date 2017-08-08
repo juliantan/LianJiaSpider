@@ -10,7 +10,7 @@ import settings
 
 class LianjiaspiderPipeline(object):
     def process_item(self, item, spider):
-        conn = MySQLdb.connect(host=settings.DB_Host, user=settings.DB_User, passwd=settings.DB_Pwd)
+        conn = MySQLdb.connect(host=settings.DB_Host, user=settings.DB_User, passwd=settings.DB_Pwd,charset='utf8')
         cursor = conn.cursor()
         cursor.execute("""use lianjiaspider;""")
         cur = conn.cursor()
@@ -24,7 +24,6 @@ class LianjiaspiderPipeline(object):
             item['houseType'][0].encode('utf8'),
             item['price'][0].encode('utf8').replace('\r','').replace('\n','').replace('\t','').replace(' ',''),
             item['areaurl'][0].encode('utf8') + item['loupanurl'][0].encode('utf8')[1:]))
-
 
         # now = time.strftime('%Y-%m-%d', time.localtime())
         # fileName = u'链家' + now + '.txt'
